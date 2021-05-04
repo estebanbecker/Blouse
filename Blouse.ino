@@ -5,8 +5,9 @@
 
 const int MPU=0x68; 
 int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
-float AcT,X,Y,Z,max,min,check=0;
+float AcT,X,Y,Z,max,min;
 int i,test[3];
+boolean check=false;
 CRGB leds[300];
 
 void setup(){
@@ -51,9 +52,9 @@ if(AcT<min){
 
 if((AcT-min)>(max-min)*(0.75)){
 
-  if(check==0){
+  if(check==false){
     
-  check=1;
+  check=true;
   
   for(int i=0;i<3;++i){
     test[i]=random(256);
@@ -64,7 +65,7 @@ if((AcT-min)>(max-min)*(0.75)){
     }
   };
  }else{
-  check=00;
+  check=false;
  }
 
 
