@@ -78,10 +78,12 @@ if(AcT<min){
 
 if((AcT-min)>(max-min)*(0.75)){
 
+  
+  
   if(check==false){
     
   check=true;
-  
+  FastLED.setBrightness(255);
   for(int i=0;i<3;++i){
     test[i]=random(256);
     }
@@ -89,14 +91,17 @@ if((AcT-min)>(max-min)*(0.75)){
   for(i=0;i<10;++i){
     leds[i].setRGB(test[0],test[1],test[2]);
     }
+
+  FastLED.show();
   };
  }else{
   check=false;
+  
  }
 
 
 
-FastLED.setBrightness(  ((AcT-min)*255)/(max-min));
+FastLED.setBrightness(((AcT-min)*(255))/((max-min)));
 
 FastLED.show();
 
