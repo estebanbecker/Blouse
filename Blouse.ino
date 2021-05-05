@@ -4,9 +4,9 @@
 #include <FastLED.h>
 
 const int MPU=0x68; 
-int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
-float AcT,X,Y,Z,max,min;
-int i,test[3];
+int16_t AcX,AcY,AcZ;
+float AcT,X,Y,Z,max,min,Xoff, Yoff,Zoff;
+int i,j,test[3];
 boolean check=false;
 CRGB leds[300];
 
@@ -20,6 +20,32 @@ void setup(){
   FastLED.addLeds<WS2812B, 3, RGB>(leds, 300);
   for(i=0;i<10;++i){leds[i].setRGB(255,255,255);}
   randomSeed(analogRead(0));
+
+  FastLED.setBrightness(255);
+  for(i=0;i<3000;++i){
+  Wire.beginTransmission(MPU);
+  Wire.write(0x3B);  
+  Wire.endTransmission(false);
+  Wire.requestFrom(MPU,12,true);  
+  AcX=Wire.read()<<8|Wire.read();    
+  AcY=Wire.read()<<8|Wire.read();  
+  AcZ=Wire.read()<<8|Wire.read();
+
+  X=AcX+X;
+  Y=AcY+Y;
+  Z=AcZ+Z;
+
+  leds[i%300].setRGB(random(256),random(256),random(256));
+  if(i%300==0){
+    for(j=0;j<300;++j){leds[j].setRGB(0,0,0);}
+  }
+  FastLED.show();
+  }
+
+  Xoff=X/3000;
+  Yoff=Y/3000;
+  Zoff=Z/3000;
+  for(i=0;i<300;++i){leds[i].setRGB(0,0,0);}
 }
 
 
@@ -32,9 +58,9 @@ void loop(){
   AcY=Wire.read()<<8|Wire.read();  
   AcZ=Wire.read()<<8|Wire.read(); 
 
-  X=AcX-16200;  
-  Y=AcY-2000;
-  Z=AcZ+1850; 
+  X=AcX-Xoff;  
+  Y=AcY-Yoff;
+  Z=AcZ-Zoff; 
   AcT=sqrt(sq(X)+sq(Y)+sq(Z));
   
 
