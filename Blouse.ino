@@ -16,7 +16,6 @@ void setup(){
   Wire.write(0x6B); 
   Wire.write(0);    
   Wire.endTransmission(true);
-  Serial.begin(9600);
   FastLED.addLeds<WS2812B, 3, RGB>(leds, 300);
   for(i=0;i<10;++i){leds[i].setRGB(255,255,255);}
   randomSeed(analogRead(0));
@@ -68,7 +67,7 @@ void loop(){
 if(AcT>max){
   max=AcT;
 }else {
-  max=max-1;
+  max=max-10;
 }
 if(AcT<min){
   min=AcT;
@@ -84,11 +83,24 @@ if((AcT-min)>(max-min)*(0.75)){
     
   check=true;
   FastLED.setBrightness(255);
+  for(i=98;i<300;++i){
+    leds[i].setRGB(255,255,255);
+    }
+  FastLED.show();
   for(int i=0;i<3;++i){
     test[i]=random(256);
     }
 
-  for(i=0;i<10;++i){
+  for(i=98;i<185;++i){
+    leds[i].setRGB(test[0],test[1],test[2]);
+    }
+   for(i=261;i<300;++i){
+    leds[i].setRGB(test[0],test[1],test[2]);
+    }
+    for(int i=0;i<3;++i){
+    test[i]=random(256);
+    }
+    for(i=185;i<261;++i){
     leds[i].setRGB(test[0],test[1],test[2]);
     }
 
