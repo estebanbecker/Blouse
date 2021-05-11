@@ -106,15 +106,22 @@ if((AcT-min)>(max-min)*(0.75)){
 
   FastLED.show();
   };
- }else{
+ }else if(AcT<0.2*(max-min)){
   check=false;
   
- }
+  FastLED.setBrightness(0);
+
+  FastLED.show();
+
+ }else{
+
+  check=false;
+  
+  FastLED.setBrightness((AcT-(min+(0.2*(max-min)))*(255))/((max-(min+(0.2*(max-min))))));
+
+  FastLED.show();}
 
 
 
-FastLED.setBrightness(((AcT-min)*(255))/((max-min)));
-
-FastLED.show();
 
 }
